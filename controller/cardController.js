@@ -1,14 +1,15 @@
 const Card = require("../models/cardSchema"); // Import the Card model
 exports.createCard = async (req, res) => {
   try {
-    console.log("request success");
-    const { name, description, price, discount, image } = req.body;
+    console.log("Request received");
+    console.log(req.body);
+    const { name, description, price, discount = 0, imageUrl } = req.body;
 
     // Validate required fields
-    if (!name || !price || !image ) {
+    if (!name || !price || !imageUrl) {  // Use imageUrl for validation
       return res.status(400).json({
         success: false,
-        message: "Please provide all required fields: name, price, image",
+        message: "Please provide all required fields: name, price, imageUrl",
       });
     }
 
@@ -18,7 +19,7 @@ exports.createCard = async (req, res) => {
       description,
       price,
       discount,
-      image,
+      image: imageUrl,  // Correct the image key here
     });
 
     // Save card to the database
